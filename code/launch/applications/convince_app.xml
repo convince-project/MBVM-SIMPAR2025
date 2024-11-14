@@ -1,0 +1,17 @@
+<application>
+    <name>convince_app</name>
+
+    <dependencies>
+    </dependencies>
+   <application>
+        <name>Navigation_Madama_ROS2_R1_fake</name>
+        <prefix></prefix>
+    </application>
+    
+    <application>
+        <name>convince_bt</name>
+        <prefix></prefix>
+    </application>
+ 
+
+</application>
