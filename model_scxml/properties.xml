@@ -47,6 +47,7 @@
   </predicates>
 
   <guarantees>
+    <!-- NOTE: this property is equivalent to the following two toghether. -->
     <!-- <guarantee id="battery_alarm_response"> -->
       <!-- <historically> -->
         <!-- <and> -->
@@ -75,6 +76,7 @@
         </previously>
       </implies>
     </guarantee>
+    <!-- NOTE: This part seems to fail with lower_bound <= 61 and succeed with lower_bound >= 62 -->
     <guarantee id="battery_alarm_response_2">
       <not>
         <since lower_bound="61">
@@ -85,15 +87,15 @@
         </since>
       </not>
     </guarantee>
-    <!-- <guarantee id="battery_recurrence"> -->
-      <!-- <implies> -->
-        <!-- <previously lower_bound="50"> -->
-          <!-- <true/> -->
-        <!-- </previously> -->
-        <!-- <previously upper_bound="30"> -->
-          <!-- <var refid="battery_level_published"/> -->
-        <!-- </previously> -->
-      <!-- </implies> -->
-    <!-- </guarantee> -->
+    <guarantee id="battery_recurrence">
+      <implies>
+        <previously lower_bound="50">
+          <true/>
+        </previously>
+        <previously upper_bound="30">
+          <var refid="battery_level_published"/>
+        </previously>
+      </implies>
+    </guarantee>
   </guarantees>
 </properties>
