@@ -10,6 +10,7 @@ RUN apt-get install -y libczmq-dev ros-iron-zmqpp-vendor-dbgsym ros-iron-zmqpp-v
 
 USER user1
 
+RUN pip install reelay websocket-client jedi prompt_toolkit
 
 RUN /bin/bash -c "git clone --recurse-submodules https://github.com/BehaviorTree/Groot.git && \
     cd Groot && \
@@ -62,16 +63,16 @@ WORKDIR /home/user1
 
 ENV Qt6_DIR=/home/user1/Qt6.6.3/lib/cmake
 
-# RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
-#     source /opt/ros/iron/setup.bash && \
-#     python3 generator --config_file /home/user1/convince_bts/simple_example/monitoring/monitor.yaml && \
-#     cd /home/user1/convince_bts/simple_example/monitor_ws/src/ && \
-#     colcon build"
-
 RUN /bin/bash -c "cd /home/user1 && rm -rf ROSMonitoring"
 
 RUN /bin/bash -c "source /opt/ros/iron/setup.bash && \
     cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
+
+RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
+    source /opt/ros/iron/setup.bash && \
+    python3 generator --config_file ./monitor.yaml && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
+    colcon build"
 
 
 RUN /bin/bash -c "echo 'updated on 202411141542' && \

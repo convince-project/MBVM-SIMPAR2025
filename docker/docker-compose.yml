@@ -212,6 +212,27 @@ services:
       - run_skills
       - run_bt_executable
 
+  ros2oracle:
+    image: ste93/mbvm:simpar2025
+    <<: *base
+    container_name: ros2oracle
+    command: bash -c "source /opt/ros/iron/setup.bash && \
+              source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash && \
+              cd /home/user1/MBVM-SIMPAR2025/monitoring && \
+              python3 /home/user1/ROSMonitoring/oracle/TLOracle/oracle.py --online --dense --property prop"
+
+  ros2monitor:
+    image: ste93/mbvm:simpar2025
+    <<: *base
+    container_name: ros2monitor
+    command: bash -c "source /opt/ros/iron/setup.bash && \
+              source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash && \
+              cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
+              source install/setup.bash && \
+              ros2 launch monitor/launch/monitor.launch"
+    depends_on:
+      - ros2oracle
+
 # yarpmanager-console --application  MBVM-SIMPAR2025/code/launch/applications/convince_bt_components.xml --exit --run --connect
 # yarpmanager-console --application  MBVM-SIMPAR2025/code/launch/applications/convince_bt_skills.xml --exit --run --connect
 # ros2 run bt_executable bt_executable MBVM-SIMPAR2025/code/src/behavior_tree/BT/Policy.xml
