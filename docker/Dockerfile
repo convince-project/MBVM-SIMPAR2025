@@ -68,6 +68,12 @@ ENV Qt6_DIR=/home/user1/Qt6.6.3/lib/cmake
 #     cd /home/user1/convince_bts/simple_example/monitor_ws/src/ && \
 #     colcon build"
 
+RUN /bin/bash -c "cd /home/user1 && rm -rf ROSMonitoring"
+
+RUN /bin/bash -c "source /opt/ros/iron/setup.bash && \
+    cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
+
+
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
