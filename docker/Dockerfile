@@ -68,7 +68,7 @@ ENV Qt6_DIR=/home/user1/Qt6.6.3/lib/cmake
 #     cd /home/user1/convince_bts/simple_example/monitor_ws/src/ && \
 #     colcon build"
 
-RUN /bin/bash -c "echo 'updated on 202411141449' && \
+RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
     git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/add_uc3 && \
