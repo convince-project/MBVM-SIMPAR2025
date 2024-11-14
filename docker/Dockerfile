@@ -68,11 +68,19 @@ RUN /bin/bash -c "cd /home/user1 && rm -rf ROSMonitoring"
 RUN /bin/bash -c "source /opt/ros/iron/setup.bash && \
     cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
 
-RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
+# installing as2fm
+RUN /bin/bash -c "python3 -m pip install --upgrade pip && \
     source /opt/ros/iron/setup.bash && \
-    python3 generator --config_file ./monitor.yaml && \
-    cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
-    colcon build"
+    cd /home/user1 && \
+    git clone https://github.com/convince-project/AS2FM.git && python3 -m pip install AS2FM/"
+
+# install SCAN
+USER user1
+RUN /bin/bash -c "curl https://sh.rustup.rs -sSf | sh -s -- -y"
+
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y| sh "
+
+RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://github.com/convince-project/scan"
 
 
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
@@ -89,18 +97,8 @@ RUN /bin/bash -c "echo 'updated on 202411141542' && \
 RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
-
-# installing as2fm
-RUN /bin/bash -c "python3 -m pip install --upgrade pip && \
+RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
-    cd /home/user1 && \
-    git clone https://github.com/convince-project/AS2FM.git && python3 -m pip install AS2FM/"
-
-# install SCAN
-USER user1
-RUN /bin/bash -c "curl https://sh.rustup.rs -sSf | sh -s -- -y"
-
-# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y| sh "
-
-RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://github.com/convince-project/scan"
-
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
+    colcon build"
