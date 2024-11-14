@@ -1,0 +1,99 @@
+<properties>
+  <ports>
+    <port id="battery_level_published" type="boolean">
+      <origin refid="BatteryComponent"/>
+      <target refid="BatteryLevelSkill"/>
+      <message event="topic_BatteryComponent__battery_level_msg"/>
+    </port>
+    <port id="battery_level" type="int32">
+      <origin refid="BatteryComponent"/>
+      <target refid="BatteryLevelSkill"/>
+      <message event="topic_BatteryComponent__battery_level_msg" param_name="ros_fields__data" expr="100" />
+    </port>
+    <port id="alarm" type="boolean">
+      <origin refid="AlarmSkill" />
+      <target refid="srv_handler_NotifyUserComponent__StartAlarm" />
+      <message event="srv_NotifyUserComponent__StartAlarm_req_client_AlarmSkill" />
+    </port>
+
+    <!-- <ros_service_client id="/RunTimer/tick" type="void" event="request"> -->
+      <!-- <port id="runTimer"/> -->
+    <!-- </ros_service_client> -->
+  
+    <!-- <ros_service_client id="/SchedulerComponent/SetPoi" type="void" event="request"> -->
+      <!-- <port id="setPoi" expr="_req.poi_number"/> -->
+    <!-- </ros_service_client> -->
+
+    <!-- <ros_service_client id="/BlackboardComponent/SetInt" type="void" event="request"> -->
+      <!-- <port id="bb_field_name" expr="_req.field_name"/> -->
+    <!-- </ros_service_client> -->
+
+    <!-- <ros_action_client id="/NavigationComponent/GoToPoi" type="void" event="send_goal"> -->
+      <!-- <port id="navigation_goal" expr="_action.goal.poi_number" /> -->
+    <!-- </ros_action_client> -->
+
+    <!-- <ros_action_client id="/NavigationComponent/GoToPoi" type="void" event="feedback"> -->
+      <!-- <port id="navigation_status" expr="_feedback.status" /> -->
+    <!-- </ros_action_client> -->
+  </ports>
+
+  <predicates>
+    <predicate id="low_battery">
+      <leq>
+        <var refid="battery_level"/>
+        <const type="int32" expr="30"/>
+      </leq>
+    </predicate>
+  </predicates>
+
+  <guarantees>
+    <!-- <guarantee id="battery_alarm_response"> -->
+      <!-- <historically> -->
+        <!-- <and> -->
+          <!-- <implies> -->
+            <!-- <var refid="alarm"/> -->
+            <!-- <previously> -->
+              <!-- <var refid="low_battery"/> -->
+            <!-- </previously> -->
+          <!-- </implies> -->
+          <!-- <not> -->
+            <!-- <since lower_bound="60"> -->
+              <!-- <not> -->
+                <!-- <var refid="alarm"/> -->
+              <!-- </not> -->
+              <!-- <var refid="low_battery"/> -->
+            <!-- </since> -->
+          <!-- </not> -->
+        <!-- </and> -->
+      <!-- </historically> -->
+    <!-- </guarantee> -->
+    <guarantee id="battery_alarm_response_1">
+      <implies>
+        <var refid="alarm"/>
+        <previously>
+          <var refid="low_battery"/>
+        </previously>
+      </implies>
+    </guarantee>
+    <guarantee id="battery_alarm_response_2">
+      <not>
+        <since lower_bound="61">
+          <not>
+            <var refid="alarm"/>
+          </not>
+          <var refid="low_battery"/>
+        </since>
+      </not>
+    </guarantee>
+    <!-- <guarantee id="battery_recurrence"> -->
+      <!-- <implies> -->
+        <!-- <previously lower_bound="50"> -->
+          <!-- <true/> -->
+        <!-- </previously> -->
+        <!-- <previously upper_bound="30"> -->
+          <!-- <var refid="battery_level_published"/> -->
+        <!-- </previously> -->
+      <!-- </implies> -->
+    <!-- </guarantee> -->
+  </guarantees>
+</properties>
