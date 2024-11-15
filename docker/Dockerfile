@@ -102,3 +102,5 @@ RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
     cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
     colcon build"
+
+ENV PATH=${PATH}:/home/user1/.local/bin
