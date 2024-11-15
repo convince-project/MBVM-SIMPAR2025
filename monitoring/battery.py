@@ -19,10 +19,13 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
+    print("predicates")
+    print(predicates)
+    if 'response' in message:
+        predicates['time'] = predicates['time'] + 0.0000001
+    else:
+        predicates['time'] = message['time']
 
-    predicates['time'] = message['time']
-    if not 'voltage' in message:
-        print(message)
     predicates['service'] = True if 'service' in message else False
 
     predicates['low_percentage'] = True if 'percentage' in message and message['percentage'] < 30 else False
