@@ -16,25 +16,41 @@
       <message event="srv_NotifyUserComponent__StartAlarm_req_client_AlarmSkill" />
     </port>
 
-    <!-- <ros_service_client id="/RunTimer/tick" type="void" event="request"> -->
-      <!-- <port id="runTimer"/> -->
-    <!-- </ros_service_client> -->
+    <!-- <port id="wait" type="boolean">
+      <origin refid="srv_handler_WaitSkill__tick" />
+      <target refid="WaitSkill" />
+      <message event="srv_WaitSkill__tick_request" />
+    </port> -->
   
-    <!-- <ros_service_client id="/SchedulerComponent/SetPoi" type="void" event="request"> -->
-      <!-- <port id="setPoi" expr="_req.poi_number"/> -->
-    <!-- </ros_service_client> -->
+    <!-- <port id="is_followed" type="boolean">
+      <origin refid="PeopleDetectorFilterComponent" />
+      <target refid="VisitorsFollowingRobotSkill" />
+      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" param_name="ros_fields__data" expr="true"/>
+    </port> -->
+    <port id="visitors_presence_published" type="boolean">
+      <origin refid="PeopleDetectorFilterComponent" />
+      <target refid="VisitorsFollowingRobotSkill" />
+      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" />
+    </port>
 
-    <!-- <ros_service_client id="/BlackboardComponent/SetInt" type="void" event="request"> -->
-      <!-- <port id="bb_field_name" expr="_req.field_name"/> -->
-    <!-- </ros_service_client> -->
+    <!-- <port id="current_poi" type="int32">
+      <origin refid="srv_handler_SchedulerComponent__SetPoi" />
+      <target refid="SchedulerComponent" />
+      <message event="srv_SchedulerComponent__SetPoi_request" param_name="ros_fields__poi_number" expr="0"/>
+    </port>
 
-    <!-- <ros_action_client id="/NavigationComponent/GoToPoi" type="void" event="send_goal"> -->
-      <!-- <port id="navigation_goal" expr="_action.goal.poi_number" /> -->
-    <!-- </ros_action_client> -->
+    <port id="poi_done_name" type="int32">
+      <origin refid="srv_handler_BlackboardComponent__SetInt" />
+      <target refid="BlackboardComponent" />
+      <message event="srv_BlackboardComponent__SetInt_request" param_name="ros_fields__field_name" expr="0"/>
+    </port>
+    
+    <port id="poi_done_value" type="int32">
+      <origin refid="srv_handler_BlackboardComponent__SetInt" />
+      <target refid="BlackboardComponent" />
+      <message event="srv_BlackboardComponent__SetInt_request" param_name="ros_fields__value" expr="0"/>
+    </port> -->
 
-    <!-- <ros_action_client id="/NavigationComponent/GoToPoi" type="void" event="feedback"> -->
-      <!-- <port id="navigation_status" expr="_feedback.status" /> -->
-    <!-- </ros_action_client> -->
   </ports>
 
   <predicates>
@@ -44,6 +60,54 @@
         <const type="int32" expr="30"/>
       </leq>
     </predicate>
+    <!-- <predicate id="not_followed">
+        <equal>
+          <var refid="is_followed"/>
+          <const type="boolean" expr="false"/>
+        </equal>
+      </predicate> -->
+    <!-- <predicate id="poi_is_1">
+      <equal>
+        <var refid="current_poi"/>
+        <const type="int32" expr="1"/>
+      </equal>
+    </predicate> -->
+    <!-- <predicate id="poi_is_0">
+      <equal>
+        <var refid="current_poi"/>
+        <const type="int32" expr="0"/>
+      </equal>
+    </predicate> -->
+    <!-- <predicate id="poi_is_2">
+      <equal>
+        <var refid="current_poi"/>
+        <const type="int32" expr="2"/>
+      </equal>
+    </predicate> -->
+    <!-- <predicate id="poi_1_done">
+      <and>
+        <equal>
+          <var refid="poi_done_name"/>
+          <const type="int32" expr="1"/>
+        </equal>
+        <equal>
+          <var refid="poi_done_value"/>
+          <const type="int32" expr="1"/>
+        </equal>
+    </and>
+    </predicate> -->
+    <!-- <predicate id="poi_2_done">
+      <and>
+        <equal>
+          <var refid="poi_done_name"/>
+          <const type="int32" expr="2"/>
+        </equal>
+        <equal>
+          <var refid="poi_done_value"/>
+          <const type="int32" expr="1"/>
+        </equal>
+    </and>
+    </predicate> -->
   </predicates>
 
   <guarantees>
@@ -68,16 +132,16 @@
         <!-- </and> -->
       <!-- </historically> -->
     <!-- </guarantee> -->
-    <guarantee id="battery_alarm_response_1">
+    <!-- <guarantee id="battery_alarm_response_1">
       <implies>
         <var refid="alarm"/>
         <previously>
           <var refid="low_battery"/>
         </previously>
       </implies>
-    </guarantee>
+    </guarantee> -->
     <!-- NOTE: This part seems to fail with lower_bound <= 61 and succeed with lower_bound >= 62 -->
-    <guarantee id="battery_alarm_response_2">
+    <!-- <guarantee id="battery_alarm_response_2">
       <not>
         <since lower_bound="61">
           <not>
@@ -86,8 +150,20 @@
           <var refid="low_battery"/>
         </since>
       </not>
-    </guarantee>
-    <guarantee id="battery_recurrence">
+    </guarantee> -->
+
+    <!-- <guarantee id="battery_recurrence">
+      <implies>
+        <previously lower_bound="50">
+          <true/>
+        </previously>
+        <previously upper_bound="30">
+          <var refid="battery_level_published"/>
+        </previously>
+      </implies>
+    </guarantee> -->
+
+    <guarantee id="visitors_presence_published">
       <implies>
         <previously lower_bound="50">
           <true/>
