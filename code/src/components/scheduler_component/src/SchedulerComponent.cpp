@@ -10,6 +10,20 @@
 
 bool SchedulerComponent::start(int argc, char*argv[])
 {
+    if (argc >= 2)
+    {
+        m_tourStorage = std::make_shared<TourStorage>(); // Loads the tour json from the file and saves a reference to the class.
+        if( !m_tourStorage->LoadTour(argv[1], argv[2]))
+        {
+            RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Error loading tour");
+            return false;
+        }
+    }
+    else
+    {
+        std::cerr << "Error: file path is missing" << std::endl;
+        return false;
+    }
     if(!rclcpp::ok())
     {
         rclcpp::init(/*argc*/ argc, /*argv*/ argv);
