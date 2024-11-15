@@ -15,8 +15,6 @@ predicates = dict(
 
     t = True,
 
-    f = False,
-
     battery_published = False
 
 )
@@ -29,6 +27,6 @@ def abstract_message(message):
 
     predicates['time'] = message['time']
     
-    predicates['battery_published'] = 'topic' in message and message['topic'] == 'battery_status'
+    predicates['battery_published'] = 'topic' in message and 'battery' in message['topic']
 
     return predicates
