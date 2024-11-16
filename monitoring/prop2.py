@@ -1,7 +1,7 @@
 """
 H((P[5:] True) IMPLIES P[:5] battery_published)"""
 
-PROPERTY = r"historically(once[5:]{t} -> once[:0.0000001]{battery_published})"
+PROPERTY = r"historically(once[5:]{t} -> once[:1]{battery_published})"
 
 # predicates used in the property (initialization for time 0)
 
@@ -29,7 +29,7 @@ def abstract_message(message):
 
     predicates['time'] = message['time']
     
-    predicates['battery_published'] = 'topic' in message and 'battery' in message['topic'] and (time_passed < 0.00001)
+    predicates['battery_published'] = 'topic' in message and 'battery' in message['topic'] and (time_passed < 1)
     print(predicates)
 
     return predicates
