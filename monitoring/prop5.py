@@ -36,15 +36,16 @@ def abstract_message(message):
     # int8 SKILL_SUCCESS=0
     # int8 SKILL_FAILURE=1
     # int8 SKILL_RUNNING=2
-    if message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 0:
-        predicates['poi1_completed'] = True
-    elif message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 1:
-        predicates['poi1_completed'] = False
+    if "service" in message and "response" in message:
+        if message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 0:
+            predicates['poi1_completed'] = True
+        elif message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 1:
+            predicates['poi1_completed'] = False
 
-    if message['service'] == "SetPoi1Skill/tick" and message['response']['status'] == 0:
-        predicates['poi1_selected'] = True
-    elif message['service'] == "SetPoi1Skill/tick" and message['response']['status'] != 1:
-        predicates['poi1_selected'] = False
+        if message['service'] == "SetPoi1Skill/tick" and message['response']['status'] == 0:
+            predicates['poi1_selected'] = True
+        elif message['service'] == "SetPoi1Skill/tick" and message['response']['status'] != 1:
+            predicates['poi1_selected'] = False
 
     # predicates['service'] = True if 'service' in message else False
 
