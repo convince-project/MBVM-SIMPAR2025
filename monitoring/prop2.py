@@ -29,7 +29,7 @@ def abstract_message(message):
     predicates['time'] = message['time']
     
     predicates['battery_published'] = 'topic' in message and 'battery' in message['topic'] and (time_passed < 0.00001)
-    print(time_passed)
-    print(predicates)
+    # print(time_passed)
+    print(predicates, "time passed: ", time_passed)
 
     return predicates
