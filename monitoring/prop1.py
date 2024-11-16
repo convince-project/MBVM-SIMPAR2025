@@ -25,11 +25,13 @@ predicates = dict(
 
 def abstract_message(message):
 
-    predicates['time'] = message['time']
+    if message['time'] <= predicates['time']:
+        predicates['time'] += 0.0000001
+    else:
+        predicates['time'] = message['time']
 
-    predicates['alarm'] = False
+    predicates['alarm'] = message['service'] if 'service' in message else predicates['alarm']
 
-    predicates['low_battery'] = False
-
+    predicates['low_battery'] = message['percentage'] < 30 if 'percentage' in message else predicates['low_battery']
 
     return predicates

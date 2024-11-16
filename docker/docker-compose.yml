@@ -230,7 +230,7 @@ services:
     command: bash -c "source /opt/ros/iron/setup.bash && \
               source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash && \
               cd /home/user1/MBVM-SIMPAR2025/monitoring && \
-              python3 /home/user1/ROSMonitoring/oracle/TLOracle/oracle.py --online --dense --property prop"
+              python3 /home/user1/ROSMonitoring/oracle/TLOracle/oracle.py --online --dense --property prop1"
 
   ros2monitor:
     image: ste93/mbvm:simpar2025
