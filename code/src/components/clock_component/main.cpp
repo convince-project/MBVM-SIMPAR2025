@@ -30,7 +30,7 @@ private:
         yarp::os::Bottle *input = yarp_port_.read(false);
         if (input != nullptr)
         {
-            auto message = builtin_interfaces::msg::Time;
+            auto message = builtin_interfaces::msg::Time();
             auto time_in_string = input->toString();
             // split second and nanosecond
             auto second = time_in_string.substr(0, time_in_string.find("."));  
