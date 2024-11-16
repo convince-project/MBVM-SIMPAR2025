@@ -32,6 +32,6 @@ def abstract_message(message):
 
     predicates['alarm'] = message['service'] == "AlarmSkill/tick" if 'service' in message else predicates['alarm']
 
-    predicates['low_battery'] = message['percentage'] < 30 if 'percentage' in message else predicates['low_battery']
+    predicates['low_battery'] = message['percentage'] < 31 if 'percentage' in message else predicates['low_battery']
 
     return predicates
