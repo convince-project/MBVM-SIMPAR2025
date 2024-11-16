@@ -24,11 +24,12 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
-    time_passed = (message['time'] - predicates['time'])
+    time_passed = abs(message['time'] - predicates['time'])
 
     predicates['time'] = message['time']
     
     predicates['battery_published'] = 'topic' in message and 'battery' in message['topic'] and (time_passed < 0.00001)
+    print(time_passed)
     print(predicates)
 
     return predicates
