@@ -12,7 +12,7 @@
     <BehaviorTree ID="BatteryManagment">
         <ReactiveFallback>
             <Condition ID="ROS2Condition" name="BatteryLevel" interface="ROS2SERVICE" isMonitored="false"/>
-            <Action ID="ROS2Action" name="Alarm" interface="ROS2SERVICE" isMonitored="true"/>
+            <Action ID="ROS2Action" name="Alarm" interface="ROS2SERVICE" isMonitored="false"/>
         </ReactiveFallback>
     </BehaviorTree>
     <!-- ////////// -->
@@ -28,9 +28,9 @@
         <Fallback>
             <Sequence>
                 <Inverter>
-                    <Condition ID="ROS2Condition" name="IsPoiDone1" interface="ROS2SERVICE" isMonitored="false"/>
+                    <Condition ID="ROS2Condition" name="IsPoiDone1" interface="ROS2SERVICE" isMonitored="true"/>
                 </Inverter>
-                <Action ID="ROS2Action" name="SetPoi1" interface="ROS2SERVICE" isMonitored="false"/>
+                <Action ID="ROS2Action" name="SetPoi1" interface="ROS2SERVICE" isMonitored="true"/>
             </Sequence>
             <Sequence>
                 <Inverter>
