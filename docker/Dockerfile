@@ -65,9 +65,6 @@ ENV Qt6_DIR=/home/user1/Qt6.6.3/lib/cmake
 
 RUN /bin/bash -c "cd /home/user1 && rm -rf ROSMonitoring"
 
-RUN /bin/bash -c "source /opt/ros/iron/setup.bash && \
-    cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
-
 # installing as2fm
 RUN /bin/bash -c "python3 -m pip install --upgrade pip && \
     source /opt/ros/iron/setup.bash && \
@@ -78,29 +75,44 @@ RUN /bin/bash -c "python3 -m pip install --upgrade pip && \
 USER user1
 RUN /bin/bash -c "curl https://sh.rustup.rs -sSf | sh -s -- -y"
 
+
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y| sh "
 
 RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://github.com/convince-project/scan"
 
 
-RUN /bin/bash -c "echo 'updated on 202411141542' && \
+
+
+
+
+RUN /bin/bash -c "echo 'updated on 202411161552' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
-    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/add_uc3 && \
+    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/monitoring_test && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1/MBVM-SIMPAR2025/code && \
     colcon build --packages-select notify_user_interfaces_dummy && \
     source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash && \
     colcon build --packages-ignore BT face_expressions_wrapper bt_executable_reload"
 
+RUN /bin/bash -c "echo 'updated on 202411151646' && \
+    source /opt/ros/iron/setup.bash && \
+    cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
+
+
+
+
 
 RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
-RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
+RUN /bin/bash -c "echo 'updated on 202411161625' && \
+    cd /home/user1/MBVM-SIMPAR2025 && git pull && \
+    cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
     python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
     cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
     colcon build"
 
 ENV PATH=${PATH}:/home/user1/.local/bin
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/src/robot/yarp/build/lib/
