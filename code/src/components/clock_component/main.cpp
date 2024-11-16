@@ -33,8 +33,8 @@ private:
             auto message = builtin_interfaces::msg::Time();
             auto time_in_string = input->toString();
             // split second and nanosecond
-            auto second = time_in_string.substr(0, time_in_string.find("."));  
-            auto nanosecond = time_in_string.substr(time_in_string.find(".")+1, time_in_string.size());
+            auto second = time_in_string.substr(0, time_in_string.find(" "));  
+            auto nanosecond = time_in_string.substr(time_in_string.find(" ")+1, time_in_string.size());
             message.sec = std::stoi(second);
             message.nanosec = std::stoi(nanosecond);
             // RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
