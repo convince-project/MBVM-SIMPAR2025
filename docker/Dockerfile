@@ -104,3 +104,5 @@ RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     colcon build"
 
 ENV PATH=${PATH}:/home/user1/.local/bin
+
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/src/robot/yarp/build/lib/

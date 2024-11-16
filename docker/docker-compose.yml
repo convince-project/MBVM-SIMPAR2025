@@ -53,6 +53,17 @@ services:
     depends_on:
       - yarpserver
 
+  rosclock:
+      image: ste93/mbvm:simpar2025
+      <<: *base
+      container_name: rosclock
+      command: bash -c "source /opt/ros/iron/setup.bash && \
+                source /usr/local/src/robot/yarp-devices-ros2/ros2_interfaces_ws/install/setup.bash && \
+                source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash && \
+                yarp conf 172.17.0.1 10000; yarp wait $${YARP_NAMESPACE}; \
+                export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/src/robot/yarp/build/lib/; 
+                ros2 run clock_component clock_component"
+
   fakeBattery:
     image: ste93/mbvm:simpar2025
     <<: *base
