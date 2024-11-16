@@ -25,11 +25,11 @@ predicates = dict(
 
 def abstract_message(message):
     time_passed = abs(message['time'] - predicates['time'])
+    predicates['time_passed'] = time_passed
 
     predicates['time'] = message['time']
     
     predicates['battery_published'] = 'topic' in message and 'battery' in message['topic'] and (time_passed < 0.00001)
-    # print(time_passed)
-    print(predicates, "time passed: ", time_passed)
+    print(predicates)
 
     return predicates
