@@ -1,5 +1,6 @@
 <properties>
   <ports>
+    <!-- BATTERY PORTS -->
     <port id="battery_level_published" type="boolean">
       <origin refid="BatteryComponent"/>
       <target refid="BatteryLevelSkill"/>
@@ -15,24 +16,7 @@
       <target refid="srv_handler_NotifyUserComponent__StartAlarm" />
       <message event="srv_NotifyUserComponent__StartAlarm_req_client_AlarmSkill" />
     </port>
-
-    <!-- <port id="wait" type="boolean">
-      <origin refid="srv_handler_WaitSkill__tick" />
-      <target refid="WaitSkill" />
-      <message event="srv_WaitSkill__tick_request" />
-    </port> -->
-  
-    <!-- <port id="is_followed" type="boolean">
-      <origin refid="PeopleDetectorFilterComponent" />
-      <target refid="VisitorsFollowingRobotSkill" />
-      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" param_name="ros_fields__data" expr="true"/>
-    </port> -->
-    <port id="visitors_presence_published" type="boolean">
-      <origin refid="PeopleDetectorFilterComponent" />
-      <target refid="VisitorsFollowingRobotSkill" />
-      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" />
-    </port>
-
+    <!-- SCHEDULING PORTS -->
     <port id="current_poi" type="int32">
       <origin refid="srv_handler_SchedulerComponent__SetPoi" />
       <target refid="SchedulerComponent" />
@@ -50,38 +34,45 @@
       <target refid="BlackboardComponent" />
       <message event="srv_BlackboardComponent__SetInt_request" param_name="ros_fields__value" expr="0"/>
     </port>
+    <!-- VISITORS AND NAVIGATION PORTS -->
+    <port id="visitors_presence_published" type="boolean">
+      <origin refid="PeopleDetectorFilterComponent" />
+      <target refid="VisitorsFollowingRobotSkill" />
+      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" />
+    </port>
+        <!-- <port id="wait" type="boolean">
+      <origin refid="srv_handler_WaitSkill__tick" />
+      <target refid="WaitSkill" />
+      <message event="srv_WaitSkill__tick_request" />
+    </port> -->
+  
+    <!-- <port id="is_followed" type="boolean">
+      <origin refid="PeopleDetectorFilterComponent" />
+      <target refid="VisitorsFollowingRobotSkill" />
+      <message event="topic_PeopleDetectorFilterComponent__is_followed_msg" param_name="ros_fields__data" expr="true"/>
+    </port> -->
 
   </ports>
 
   <predicates>
+    <!-- BATTERY PREDICATES -->
     <predicate id="low_battery">
       <leq>
         <var refid="battery_level"/>
         <const type="int32" expr="30"/>
       </leq>
     </predicate>
-    <!-- <predicate id="not_followed">
-        <equal>
-          <var refid="is_followed"/>
-          <const type="boolean" expr="false"/>
-        </equal>
-      </predicate> -->
+    <predicate id="battery_30">
+      <equal>
+        <var refid="battery_level"/>
+        <const type="int32" expr="30"/>
+      </equal>
+    </predicate>
+    <!-- SCHEDULING PREDICATES -->
     <predicate id="poi_is_1">
       <equal>
         <var refid="current_poi"/>
         <const type="int32" expr="1"/>
-      </equal>
-    </predicate>
-    <predicate id="poi_is_0">
-      <equal>
-        <var refid="current_poi"/>
-        <const type="int32" expr="0"/>
-      </equal>
-    </predicate>
-    <predicate id="poi_is_2">
-      <equal>
-        <var refid="current_poi"/>
-        <const type="int32" expr="2"/>
       </equal>
     </predicate>
     <predicate id="poi_1_done">
@@ -96,42 +87,39 @@
         </equal>
     </and>
     </predicate>
-    <!-- <predicate id="poi_2_done">
-      <and>
+    <!-- VISITORS AND NAVIGATION PREDICATES -->
+        <!-- <predicate id="not_followed">
         <equal>
-          <var refid="poi_done_name"/>
-          <const type="int32" expr="2"/>
+          <var refid="is_followed"/>
+          <const type="boolean" expr="false"/>
         </equal>
-        <equal>
-          <var refid="poi_done_value"/>
-          <const type="int32" expr="1"/>
-        </equal>
-    </and>
-    </predicate> -->
+      </predicate> -->
   </predicates>
 
   <guarantees>
+    <!-- BATTERY PROPERTIES -->
     <!-- NOTE: this property is equivalent to the following two toghether. -->
-    <!-- <guarantee id="battery_alarm_response"> -->
-      <!-- <historically> -->
-        <!-- <and> -->
-          <!-- <implies> -->
-            <!-- <var refid="alarm"/> -->
-            <!-- <previously> -->
-              <!-- <var refid="low_battery"/> -->
-            <!-- </previously> -->
-          <!-- </implies> -->
-          <!-- <not> -->
-            <!-- <since lower_bound="60"> -->
-              <!-- <not> -->
-                <!-- <var refid="alarm"/> -->
-              <!-- </not> -->
-              <!-- <var refid="low_battery"/> -->
-            <!-- </since> -->
-          <!-- </not> -->
-        <!-- </and> -->
-      <!-- </historically> -->
-    <!-- </guarantee> -->
+    <guarantee id="battery_alarm_response">
+      <historically>
+        <and>
+          <implies>
+            <var refid="alarm"/>
+            <previously>
+              <var refid="low_battery"/>
+            </previously>
+          </implies>
+          <not>
+            <since lower_bound="62">
+              <not>
+                <var refid="alarm"/>
+              </not>
+              <var refid="low_battery"/>
+            </since>
+          </not>
+        </and>
+      </historically>
+    </guarantee>
+
     <!-- <guarantee id="battery_alarm_response_1">
       <implies>
         <var refid="alarm"/>
@@ -152,7 +140,20 @@
       </not>
     </guarantee>  -->
 
-    <!-- <guarantee id="battery_recurrence">
+<!--<guarantee id="no_alarm_if_battery_high">
+      <historically>
+        <implies>
+            <var refid="battery_30"/>
+          <historically>
+            <not>
+              <var refid="alarm"/>
+            </not>
+          </historically>
+        </implies>
+      </historically>
+    </guarantee> -->
+
+  <!-- <guarantee id="battery_recurrence">
       <implies>
         <previously lower_bound="50">
           <true/>
@@ -163,20 +164,10 @@
       </implies>
     </guarantee> -->
 
-   <!-- NOTE: This part seems to fail with upper_bound <= 9 and succeed with upper_bound >= 10 -->
-    <!-- <guarantee id="visitors_presence_published">
-      <implies>
-        <previously lower_bound="1">
-          <true/>
-        </previously>
-        <previously upper_bound="10">
-          <var refid="battery_level_published"/>
-        </previously>
-      </implies>
-    </guarantee> -->
+  <!-- SCHEDULING PROPERTIES -->
 
     <!-- NOTE: this property is equivalent to the following two toghether. -->
-    <guarantee id="poi_1_selected">
+    <!-- <guarantee id="poi_1_selected">
       <historically>
         <and>
           <implies>
@@ -199,9 +190,8 @@
           </not>
         </and>
       </historically>
-    </guarantee>
-<!-- 
-    <guarantee id="poi_1_selected_1">
+    </guarantee> -->
+<!-- <guarantee id="poi_1_selected_1">
       <implies>
         <var refid="poi_is_1"/>
         <previously>
@@ -225,6 +215,19 @@
       </not>
     </guarantee> -->
 
+    <!-- VISTORS AND NAVIGATION PROPERTIES -->
+     
+    <!-- NOTE: This part seems to fail with upper_bound <= 9 and succeed with upper_bound >= 10 -->
+    <!-- <guarantee id="visitors_presence_published">
+      <implies>
+        <previously lower_bound="1">
+          <true/>
+        </previously>
+        <previously upper_bound="10">
+          <var refid="battery_level_published"/>
+        </previously>
+      </implies>
+    </guarantee> -->
 
   </guarantees>
 
