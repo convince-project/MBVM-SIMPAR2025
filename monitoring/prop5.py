@@ -2,7 +2,7 @@
 
 '''   H(POI_1_selected => P -POI_1_completed) AND - (-POI_1_selected S[2 : ] -POI_1_completed)
 '''
-PROPERTY = r"historically(({poi1_selected} -> once( not {poi1_completed})) and not( not {poi1_selected} since[2:] not {poi1_completed}))"
+PROPERTY = r"historically(({poi1_selected} -> once( not {poi1_completed})) and not( not {poi1_selected} since[0.5:] not {poi1_completed}))"
 
 # predicates used in the property (initialization for time 0)
 
@@ -31,7 +31,8 @@ def abstract_message(message):
     else:
         predicates['time'] = message['time']
 
-    print(message)
+    print("message", message)
+    print("predicates", predicates)
 
     # int8 SKILL_SUCCESS=0
     # int8 SKILL_FAILURE=1
@@ -46,8 +47,7 @@ def abstract_message(message):
             predicates['poi1_selected'] = True
         else:
             predicates['poi1_selected'] = False
-        print("predicates", predicates)
-        print("message", message)
+
     # predicates['service'] = True if 'service' in message else False
 
     # predicates['low_percentage'] = True if 'percentage' in message and message['percentage'] < 30 else False
