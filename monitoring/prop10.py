@@ -31,5 +31,5 @@ def abstract_message(message):
         predicates['people_following_published'] = False
     elif message['topic'] == "PeopleDetectorFilterComponent/is_followed":
         predicates['people_following_published'] = True
-
+    print("predicates", predicates)
     return predicates
