@@ -14,6 +14,8 @@ predicates = dict(
 
     battery_published = False,
 
+    t = True,
+    
     time = 0
 
 )

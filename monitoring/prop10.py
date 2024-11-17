@@ -14,6 +14,8 @@ predicates = dict(
 
     people_following_published = False,
 
+    t = True,
+
     time = 0
 
 )
