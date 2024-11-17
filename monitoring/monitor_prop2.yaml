@@ -17,6 +17,6 @@ monitors: # here we list the monitors we are going to generate
           type: builtin_interfaces.msg.Time
           action: log 
       services:
-        - name: AlarmSkill/tock
+        - name: AlarmSkill/tick
           type: bt_interfaces_dummy.srv.TickAction
           action: log
