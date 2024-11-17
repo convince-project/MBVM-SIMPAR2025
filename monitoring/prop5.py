@@ -40,12 +40,12 @@ def abstract_message(message):
     if "service" in message and "response" in message:
         if message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 0:
             predicates['poi1_completed'] = True
-        else:
+        elif message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] != 0:
             predicates['poi1_completed'] = False
 
         if message['service'] == "SetPoi1Skill/tick" and message['response']['status'] == 0:
             predicates['poi1_selected'] = True
-        else:
+        elif message['service'] == "SetPoi1Skill/tick" and message['response']['status'] != 0:
             predicates['poi1_selected'] = False
 
     # predicates['service'] = True if 'service' in message else False
