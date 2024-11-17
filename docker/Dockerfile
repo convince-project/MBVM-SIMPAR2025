@@ -86,7 +86,7 @@ RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://g
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
-    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/add_uc3 && \
+    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b monitoring_prop2 && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1/MBVM-SIMPAR2025/code && \
     colcon build --packages-select notify_user_interfaces_dummy && \
