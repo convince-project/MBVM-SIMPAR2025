@@ -2,7 +2,7 @@
 """
 H((P[5:] True) IMPLIES P[:5] people_following_published)"""
 
-PROPERTY = r"historically(once[10:]{t} -> once[:2]{people_following_published})"
+PROPERTY = r"historically(once[10:]{t} -> once[:1]{people_following_published})"
 
 # predicates used in the property (initialization for time 0)
 
