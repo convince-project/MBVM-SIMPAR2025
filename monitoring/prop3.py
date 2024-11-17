@@ -1,4 +1,5 @@
 """
+H((alarm => P battery_level < 30%) AND - ( -alarm S[5 : ] battery_level  < 30%))
 H((alarm => P battery_level < 30%) AND - ( -alarm S[5 : ] battery_level  < 30%))"""
 
 PROPERTY = r"historically(({alarm} -> once{low_battery}) and not( not {alarm} since[5:] {low_battery}))"
