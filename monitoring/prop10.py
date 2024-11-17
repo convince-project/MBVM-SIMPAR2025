@@ -2,7 +2,7 @@
 """
 H((P[5:] True) IMPLIES P[:5] people_following_published)"""
 
-PROPERTY = r"historically(once[5:]{t} -> once[:5]{people_following_published})"
+PROPERTY = r"historically(once[10:]{t} -> once[:10]{people_following_published})"
 
 # predicates used in the property (initialization for time 0)
 
@@ -26,7 +26,7 @@ predicates = dict(
 
 def abstract_message(message):
     predicates['time'] = message['time']
-
+    print("message", message)
     if message['topic'] == "clock":
         predicates['people_following_published'] = False
     elif message['topic'] == "PeopleDetectorFilterComponent/is_followed":
