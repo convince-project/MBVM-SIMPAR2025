@@ -86,7 +86,7 @@ RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://g
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
-    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/add_uc3 && \
+    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b  monitoring_prop3 && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1/MBVM-SIMPAR2025/code && \
     colcon build --packages-select notify_user_interfaces_dummy && \
@@ -98,7 +98,7 @@ RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bash
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
 RUN /bin/bash -c " echo 'updated on 202411171529' && \
-    cd /home/user1/MBVM-SIMPAR2025 && git pull origin monitoring_prop2 && \
+    cd /home/user1/MBVM-SIMPAR2025 && git pull origin monitoring_prop3 && \
     cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
     python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
