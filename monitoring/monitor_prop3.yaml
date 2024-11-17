@@ -11,8 +11,11 @@ monitors: # here we list the monitors we are going to generate
         action: nothing # the oracle will not change the message
       topics: # the list of topics this monitor is going to intercept
         - name: battery_level # name of the topic
-          type: sensor_msgs.msg.BatteryState # type of the topic
+          type: std_msgs.msg.Int32 
           action: log
+        - name: clock
+          type: builtin_interfaces.msg.Time
+          action: log 
       services:
         - name: AlarmSkill/tick
           type: bt_interfaces_dummy.srv.TickAction

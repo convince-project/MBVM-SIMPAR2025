@@ -15,7 +15,7 @@ predicates = dict(
 
     alarm = False,
 
-    low_battery = False,
+    low_battery = False
 
 )
 
@@ -24,14 +24,23 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
-
     if message['time'] <= predicates['time']:
         predicates['time'] += 0.0000001
     else:
         predicates['time'] = message['time']
 
-    predicates['alarm'] = message['service'] == "AlarmSkill/tick" if 'service' in message else predicates['alarm']
+    if "service" in message and message['service'] == "AlarmSkill/tick":
+        predicates['alarm'] = True
+    
+    if "topic" in message and "battery" in message['topic']:
+        battery_level = message['data']
+        predicates['low_battery'] = battery_level <= 30
+    
+    if "topic" in message and "clock" in message['topic']:
+        predicates['alarm'] = False
 
-    predicates['low_battery'] = message['percentage'] < 31 if 'percentage' in message else predicates['low_battery']
+    print("predicates", predicates)
+    print("message", message)
+    
 
     return predicates
