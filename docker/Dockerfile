@@ -96,8 +96,12 @@ RUN /bin/bash -c "echo 'updated on 202411141542' && \
 
 RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
+RUN /bin/bash -c "cd /home/user1 && rm -rf ROSMonitoring"
 
-RUN /bin/bash -c " echo 'updated on 202411171546' && \
+RUN /bin/bash -c "source /opt/ros/iron/setup.bash && \
+    cd /home/user1 && git clone https://github.com/ste93/ROSMonitoring.git -b ros2"
+    
+RUN /bin/bash -c " echo 'updated on 202411171611' && \
     cd /home/user1/MBVM-SIMPAR2025 && git pull origin monitoring_prop4 && \
     cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
