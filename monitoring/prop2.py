@@ -1,5 +1,5 @@
 """
-H(battery_level < 30% IMPLIES H(-alarm))"""
+H(battery_level >= 30% IMPLIES H(-alarm))"""
 
 PROPERTY = r"historically({high_battery} -> historically( not {alarm}))"
 
