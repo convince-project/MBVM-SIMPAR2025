@@ -15,7 +15,7 @@ predicates = dict(
 
     alarm = False,
 
-    high_battery = False
+    high_battery = True
 
 )
 
