@@ -28,9 +28,9 @@
         <Fallback>
             <Sequence>
                 <Inverter>
-                    <Condition ID="ROS2Condition" name="IsPoiDone1" interface="ROS2SERVICE" isMonitored="true"/>
+                    <Condition ID="ROS2Condition" name="IsPoiDone1" interface="ROS2SERVICE" isMonitored="false"/>
                 </Inverter>
-                <Action ID="ROS2Action" name="SetPoi1" interface="ROS2SERVICE" isMonitored="true"/>
+                <Action ID="ROS2Action" name="SetPoi1" interface="ROS2SERVICE" isMonitored="false"/>
             </Sequence>
             <Sequence>
                 <Inverter>
