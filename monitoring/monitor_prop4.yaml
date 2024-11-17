@@ -3,7 +3,7 @@ path: /home/user1/MBVM-SIMPAR2025/monitor_ws/src  # this is the path to the ros 
 
 monitors: # here we list the monitors we are going to generate
   - monitor:
-      id: monitor_battery_level_published
+      id: monitor_prop4
       log: ./log.txt # file where the monitor will log the observed events
       silent: False # we let the monitor to print info during its execution
       oracle: # the oracle running and ready to check the specification (localhost in this case)
