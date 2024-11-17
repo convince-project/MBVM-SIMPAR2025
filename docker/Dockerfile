@@ -99,7 +99,7 @@ RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
 RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
-    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop2.yaml && \
     cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
     colcon build"
 
