@@ -1,7 +1,7 @@
 """
 H(battery_level < 30% IMPLIES H(-alarm))"""
 
-PROPERTY = r"historically(high_battery -> historically(-alarm))"
+PROPERTY = r"historically({high_battery} -> historically( not {alarm}))"
 
 # predicates used in the property (initialization for time 0)
 
