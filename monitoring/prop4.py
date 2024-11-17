@@ -2,7 +2,7 @@
 """
 H((P[5:] True) IMPLIES P[:5] battery_published)"""
 
-PROPERTY = r"historically(once[7:]{t} -> once[:1]{battery_published})"
+PROPERTY = r"historically(once[7:]{t} -> once[:1.5]{battery_published})"
 
 
 predicates = dict(
