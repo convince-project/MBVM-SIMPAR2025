@@ -1,7 +1,7 @@
 """
 H(battery_level < 30% IMPLIES H(-alarm))"""
 
-PROPERTY = r"historically(low_battery -> historically(-alarm))"
+PROPERTY = r"historically(high_battery -> historically(-alarm))"
 
 # predicates used in the property (initialization for time 0)
 
@@ -15,7 +15,7 @@ predicates = dict(
 
     alarm = False,
 
-    low_battery = False
+    high_battery = False
 
 )
 
@@ -34,11 +34,11 @@ def abstract_message(message):
     
     if "topic" in message and "battery" in message['topic']:
         battery_level = message['percentage']
-        predicates['low_battery'] = battery_level < 30
+        predicates['high_battery'] = battery_level >= 30
     
     if "topic" in message and "clock" in message['topic']:
         predicates['alarm'] = False
-        
+
     print("predicates", predicates)
     print("message", message)
     
