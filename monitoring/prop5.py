@@ -46,7 +46,8 @@ def abstract_message(message):
             predicates['poi1_selected'] = True
         else:
             predicates['poi1_selected'] = False
-
+        print("predicates", predicates)
+        print("message", message)
     # predicates['service'] = True if 'service' in message else False
 
     # predicates['low_percentage'] = True if 'percentage' in message and message['percentage'] < 30 else False
