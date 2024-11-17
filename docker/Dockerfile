@@ -97,11 +97,11 @@ RUN /bin/bash -c "echo 'updated on 202411141542' && \
 RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
-RUN /bin/bash -c " echo 'updated on 202411171529' && \
+RUN /bin/bash -c " echo 'updated on 202411171546' && \
     cd /home/user1/MBVM-SIMPAR2025 && git pull origin monitoring_prop3 && \
     cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
-    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop3.yaml && \
     cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
     colcon build"
 
