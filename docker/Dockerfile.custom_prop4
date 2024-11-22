@@ -1,0 +1,6 @@
+ARG base_img=ste93/mbvm:simpar2025
+FROM $base_img
+LABEL maintainer="Stefano Bernagozzi"
+USER user1
+RUN bash -c "rm /home/user1/MBVM-SIMPAR2025/monitoring/prop4.py"
+COPY monitoring/prop4.py /home/user1/MBVM-SIMPAR2025/monitoring/prop4.py

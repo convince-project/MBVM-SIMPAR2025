@@ -1,6 +1,8 @@
 # property to verify
+"""
+H((P[5:] True) IMPLIES P[:5] people_following_published)"""
 
-PROPERTY = r"once{low_percentage} -> once{service}"
+PROPERTY = r"historically(once[7:]{t} -> once[:0.7]{people_following_published})"
 
 # predicates used in the property (initialization for time 0)
 
@@ -10,11 +12,11 @@ PROPERTY = r"once{low_percentage} -> once{service}"
 
 predicates = dict(
 
-    time = 0,
+    people_following_published = False,
 
-    service = False,
+    t = True,
 
-    low_percentage = False
+    time = 0
 
 )
 
@@ -23,12 +25,11 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
-
     predicates['time'] = message['time']
-    
-    predicates['service'] = True if 'service' in message else False
-
-    predicates['low_percentage'] = True if 'percentage' in message and message['percentage'] < 30 else False
-
-
+    print("message", message)
+    if message['topic'] == "clock":
+        predicates['people_following_published'] = False
+    elif message['topic'] == "PeopleDetectorFilterComponent/is_followed":
+        predicates['people_following_published'] = True
+    print("predicates", predicates)
     return predicates
