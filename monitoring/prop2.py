@@ -1,7 +1,7 @@
 """
-H((P[5:] True) IMPLIES P[:5] battery_published)"""
+H((alarm => P battery_level < 30%) AND - ( -alarm S[5 : ] battery_level  < 30%))"""
 
-PROPERTY = r"historically(once[0.0000001:]{t} -> once[:0.0000001]{battery_published})"
+PROPERTY = r"historically(({alarm} -> once{low_battery}) and not( not {alarm} since[5:] {low_battery}))"
 
 # predicates used in the property (initialization for time 0)
 
@@ -13,9 +13,9 @@ predicates = dict(
 
     time = 0,
 
-    t = True,
+    alarm = False,
 
-    battery_published = False
+    low_battery = False
 
 )
 
@@ -24,9 +24,23 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
+    if message['time'] <= predicates['time']:
+        predicates['time'] += 0.0000001
+    else:
+        predicates['time'] = message['time']
 
-    predicates['time'] = message['time']
+    if "service" in message and message['service'] == "AlarmSkill/tick":
+        predicates['alarm'] = True
     
-    predicates['battery_published'] = 'topic' in message and 'battery' in message['topic']
+    if "topic" in message and "battery" in message['topic']:
+        battery_level = message['data']
+        predicates['low_battery'] = battery_level <= 30
+    
+    # if "topic" in message and "clock" in message['topic']:
+    #     predicates['alarm'] = False
+
+    print("predicates", predicates)
+    print("message", message)
+    
 
     return predicates
