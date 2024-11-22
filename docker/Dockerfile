@@ -86,7 +86,7 @@ RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://g
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
-    git clone https://x-token-auth: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@github.com/convince-project/MBVM-SIMPAR2025.git -b dev/add_uc3 && \
+    git clone https://github.com/convince-project/MBVM-SIMPAR2025.git -b dev/monitoring_test_final && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1/MBVM-SIMPAR2025/code && \
     colcon build --packages-select notify_user_interfaces_dummy && \
@@ -97,12 +97,22 @@ RUN /bin/bash -c "echo 'updated on 202411141542' && \
 RUN echo "source /home/user1/MBVM-SIMPAR2025/code/install/setup.bash" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/home/user1/Groot/build" >> ~/.bashrc
 
-RUN /bin/bash -c " echo 'updated on 202411171529' && \
-    cd /home/user1/MBVM-SIMPAR2025 && git pull origin monitoring_prop2 && \
-    cd /home/user1/ROSMonitoring/generator/ros2_devel && \
+RUN /bin/bash -c "cd /home/user1/ROSMonitoring/generator/ros2_devel && \
     source /opt/ros/iron/setup.bash && \
-    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor.yaml && \
-    cd /home/user1/MBVM-SIMPAR2025/monitor_ws/src/ && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop1.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop2.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop3.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop4.yaml && \
+    python3 generator --config_file /home/user1/MBVM-SIMPAR2025/monitoring/monitor_prop5.yaml && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_prop1_ws/src/ && \
+    colcon build && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_prop2_ws/src/ && \
+    colcon build && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_prop3_ws/src/ && \
+    colcon build && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_prop4_ws/src/ && \
+    colcon build && \
+    cd /home/user1/MBVM-SIMPAR2025/monitor_prop5_ws/src/ && \
     colcon build"
 
 ENV PATH=${PATH}:/home/user1/.local/bin
