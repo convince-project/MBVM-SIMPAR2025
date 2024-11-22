@@ -1,4 +1,3 @@
-
 path: /home/user1/MBVM-SIMPAR2025/monitor_ws/src  # this is the path to the ros workspace you'd like the monitor package in
 
 monitors: # here we list the monitors we are going to generate
@@ -10,10 +9,10 @@ monitors: # here we list the monitors we are going to generate
         port: 8080 # the port where it is listening
         url: 127.0.0.1 # the url where it is listening
         action: nothing # the oracle will not change the message
-      topics: # the list of topics this monitor is going to intercept
-        - name: battery_level # name of the topic
-          type: std_msgs.msg.Int32 # type of the topic
+      services:
+        - name: IsPoiDone1Skill/tick
+          type: bt_interfaces_dummy.srv.TickCondition
           action: log
-        - name: clock
-          type: builtin_interfaces.msg.Time
+        - name: SetPoi1Skill/tick
+          type: bt_interfaces_dummy.srv.TickAction
           action: log
