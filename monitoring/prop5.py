@@ -1,8 +1,8 @@
 # property to verify
+"""
+H((P[5:] True) IMPLIES P[:5] people_following_published)"""
 
-'''   H(POI_1_selected => P -POI_1_completed) AND - (-POI_1_selected S[2 : ] -POI_1_completed)
-'''
-PROPERTY = r"historically(({poi1_selected} -> once( not {poi1_completed})) and not( not {poi1_selected} since[2:] not {poi1_completed}))"
+PROPERTY = r"historically(once[7:]{t} -> once[:0.7]{people_following_published})"
 
 # predicates used in the property (initialization for time 0)
 
@@ -12,11 +12,11 @@ PROPERTY = r"historically(({poi1_selected} -> once( not {poi1_completed})) and n
 
 predicates = dict(
 
-    poi1_selected = False,
+    people_following_published = False,
 
-    poi1_completed = False,
+    t = True,
 
-    time = 0,
+    time = 0
 
 )
 
@@ -25,31 +25,11 @@ predicates = dict(
 # function to abstract a dictionary (obtained from Json message) into a list of predicates
 
 def abstract_message(message):
-
-    if message['time'] <= predicates['time']:
-        predicates['time'] += 0.0000001
-    else:
-        predicates['time'] = message['time']
-
-    print(message)
-
-    # int8 SKILL_SUCCESS=0
-    # int8 SKILL_FAILURE=1
-    # int8 SKILL_RUNNING=2
-    if "service" in message and "response" in message:
-        if message['service'] == "IsPoiDone1Skill/tick" and message['response']['status'] == 0:
-            predicates['poi1_completed'] = True
-        else:
-            predicates['poi1_completed'] = False
-
-        if message['service'] == "SetPoi1Skill/tick" and message['response']['status'] == 0:
-            predicates['poi1_selected'] = True
-        else:
-            predicates['poi1_selected'] = False
-
-    # predicates['service'] = True if 'service' in message else False
-
-    # predicates['low_percentage'] = True if 'percentage' in message and message['percentage'] < 30 else False
-
-
+    predicates['time'] = message['time']
+    print("message", message)
+    if message['topic'] == "clock":
+        predicates['people_following_published'] = False
+    elif message['topic'] == "PeopleDetectorFilterComponent/is_followed":
+        predicates['people_following_published'] = True
+    print("predicates", predicates)
     return predicates
