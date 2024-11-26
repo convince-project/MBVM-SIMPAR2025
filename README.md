@@ -28,7 +28,7 @@ to close everything run `docker compose down`
 
 if you want to modify the property, edit the property in the folder monitoring and then run from the root folder 
 ```
-docker build  -f "docker/Dockerfile.custom_prop1" .
+docker build  -f "docker/Dockerfile.custom_prop1" . -t ste93/mbvm:simpar2025
 ```
 
 as before if the property is another one you only need to change the number of the property
