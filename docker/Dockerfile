@@ -86,7 +86,7 @@ RUN /bin/bash -c "source /home/user1/.cargo/env && cargo install --git https://g
 RUN /bin/bash -c "echo 'updated on 202411141542' && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1 && \
-    git clone https://github.com/convince-project/MBVM-SIMPAR2025.git -b dev/monitoring_test_final && \
+    git clone https://github.com/convince-project/MBVM-SIMPAR2025.git && \
     source /opt/ros/iron/setup.bash && \
     cd /home/user1/MBVM-SIMPAR2025/code && \
     colcon build --packages-select notify_user_interfaces_dummy && \
