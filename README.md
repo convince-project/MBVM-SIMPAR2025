@@ -38,5 +38,9 @@ as before if the property is another one you only need to change the number of t
 to execute SCAN:
 
 ```
-
+cd docker
+docker compose build
+docker compose up terminator
+cd /home/user1/MBVM-SIMPAR2025/model_scxml
+scan .
 ```
